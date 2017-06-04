@@ -1,6 +1,3 @@
-services:
-  postgres
-
 myjob:
   script:
     - pip install psycopg2
