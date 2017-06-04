@@ -1,3 +1,7 @@
+variables:
+  POSTGRES_DB: mydb
+  POSTGRES_USER: mypguser
+
 myjob:
   script:
     - pip install psycopg2
