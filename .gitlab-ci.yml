@@ -1,8 +1,9 @@
-variables:
-  POSTGRES_DB: mydb
-  POSTGRES_USER: mypguser
+before_script:
+  - eval $(ssh-agent -s)
+
+after_script:
+  - kill "${SSH_AGENT_PID}"
 
 myjob:
   script:
-    - pip install psycopg2
-    - python test.py
+    - echo "${SSH_AGENT_PID}"
