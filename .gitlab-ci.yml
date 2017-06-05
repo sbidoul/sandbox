@@ -7,3 +7,4 @@ after_script:
 myjob:
   script:
     - echo "${SSH_AGENT_PID}"
+    - exit 1
