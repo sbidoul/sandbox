@@ -1,6 +1,7 @@
 before_script:
   - MYVAR=myvar
   - echo "before_script myvar = ${MYVAR}"
+  - eval $(ssh-agent -s)
 
 after_script:
   - echo "after_script myvar = ${MYVAR}"
