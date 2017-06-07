@@ -7,4 +7,5 @@ after_script:
 
 test:
   script:
+    - pip install psycopg2 -f https://wheelhouse.acsone.eu/manylinux1
     - python test.py
