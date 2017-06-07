@@ -1,10 +1,15 @@
 before_script:
-  - eval $(ssh-agent -s)
+  - MYVAR=myvar
+  - echo "myvar = ${MYVAR}"
 
 after_script:
-  - kill "${SSH_AGENT_PID}"
+  - echo "myvar = ${MYVAR}"
 
-myjob:
+myfailingjob:
   script:
-    - echo "${SSH_AGENT_PID}"
+    - echo "myvar = ${MYVAR}"
     - exit 1
+
+mysucceedingjob:
+  script:
+    - echo "myvar = ${MYVAR}"
