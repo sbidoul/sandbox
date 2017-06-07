@@ -11,3 +11,4 @@ test:
     - echo ${PGUSER}
     - createdb mydb
     - psql -d mydb -c "select * from pg_catalog.pg_tables"
+    - python test.py
