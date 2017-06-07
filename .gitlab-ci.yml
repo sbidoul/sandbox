@@ -7,7 +7,7 @@ after_script:
 
 test:
   script:
-    - createdb mydb
     - echo ${PGHOST}
     - echo ${PGUSER}
+    - createdb mydb
     - psql -d mydb -c "select * from pg_catalog.pg_tables"
