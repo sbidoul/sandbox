@@ -5,11 +5,6 @@ before_script:
 after_script:
   - echo "after_script myvar = ${MYVAR}"
 
-myfailingjob:
+test:
   script:
-    - echo "myfailingjob myvar = ${MYVAR}"
-    - exit 1
-
-mysucceedingjob:
-  script:
-    - echo "mysucceedingjob myvar = ${MYVAR}"
+    - python test.py
