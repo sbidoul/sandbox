@@ -1,17 +1,9 @@
-before_script:
-  - MYVAR=myvar
-  - echo "before_script myvar = ${MYVAR}"
-  - eval $(ssh-agent -s)
-
 after_script:
-  - echo "after_script myvar = ${MYVAR}"
+  - echo "global after script" 
 
 test:
   script:
-    - echo ${PGHOST}
-    - echo ${PGUSER}
-    - createdb mydb
-    - psql -d mydb -c "select * from pg_catalog.pg_tables"
-    - virtualenv venv
-    - venv/bin/pip install psycopg2 -f https://wheelhouse.acsone.eu/manylinux1
-    - venv/bin/python test.py
+    - echo "succeeding"
+    - exit 0
+  after_script:
+    - echo "local after script"
