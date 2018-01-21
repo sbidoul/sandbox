@@ -8,4 +8,6 @@ test:
   tags:
     - python
   script:
-    - echo "succeeding"
+    - echo "failing"
+    - exit 1
+    - echo "after failing"
