@@ -2,6 +2,8 @@ after_script:
   - echo "global after script" 
 
 test:
+  tags:
+    - python
   script:
     - echo "succeeding"
     - exit 0
