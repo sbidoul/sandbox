@@ -2,7 +2,7 @@ variables:
   DB_NAME: "${CI_PROJECT_NAME}-${CI_PIPELINE_ID}"
 
 after_script:
-  - echo "after_script: ${DB_NAME}" 
+  - "echo after_script: ${DB_NAME}"
 
 test:
   tags:
