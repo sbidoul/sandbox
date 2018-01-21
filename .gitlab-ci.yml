@@ -9,4 +9,3 @@ test:
     - python
   script:
     - echo "succeeding"
-
