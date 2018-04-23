@@ -1,6 +1,8 @@
 A small document
 =================
 
+Yo
+
 Welcome. This is the first paragraph.
 
 With a bullet list:
