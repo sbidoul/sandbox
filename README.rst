@@ -1,7 +1,7 @@
 A small document
 =================
 
-Yo
+Yo yo
 
 Welcome. This is the first paragraph.
 
