@@ -1,2 +1,4 @@
 test:
-  script: echo "hello"
+  script: 
+  - sleep 10
+  - echo "hello"
