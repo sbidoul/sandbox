@@ -6,4 +6,4 @@ test:
   script: 
   - echo "hello"
   - python -c "import sys; print(f'{sys.version}')"
-  - sleep(30)
+  - sleep 30
