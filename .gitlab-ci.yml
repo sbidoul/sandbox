@@ -1,5 +1,8 @@
 image: python:3.7-stretch
 
+services:
+  - postgres:11
+
 test:
   tags:
   - container
