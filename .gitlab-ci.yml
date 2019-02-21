@@ -1,4 +1,6 @@
 test:
+  tags:
+  - test-sbi
   script: 
   - sleep 30
   - echo "hello"
