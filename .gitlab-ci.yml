@@ -1,6 +1,8 @@
+image: python:3.7-stretch
+
 test:
   tags:
-  - test-sbi
+  - container
   script: 
-  - sleep 30
   - echo "hello"
+  - python -c "import sys; print(f'{sys.version}')"
