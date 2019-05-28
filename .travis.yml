@@ -4,6 +4,7 @@ install:
   - pip install flake8 coverage codecov
 
 script:
+  - exit 1
   - flake8
   - coverage run sandbox.py
 
