@@ -5,4 +5,5 @@
     "summary": "summary",
     "license": "LGPL-3",
     "installable": True,
+    "auto_install": False,
 }
