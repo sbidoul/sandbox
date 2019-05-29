@@ -1,6 +1,6 @@
 {
     "name": "odoo module",
-    "version": "12.0.1.1.1",
+    "version": "12.0.1.1.2",
     "author": "Author, Odoo Community Association (OCA)",
     "summary": "Just extending the summary",
     "license": "LGPL-3",
