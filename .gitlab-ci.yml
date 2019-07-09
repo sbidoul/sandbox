@@ -7,6 +7,8 @@ test:
   tags:
   - container
   script: 
+    - echo "yo!"
+    - exit 0
     - apt update
     - apt -y install software-properties-common
     - add-apt-repository -y ppa:projectatomic/ppa
