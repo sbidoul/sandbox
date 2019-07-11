@@ -5,9 +5,10 @@ services:
 
 test:
   tags:
-  - container
+  - odoo-ci
   script: 
-    - echo "yo!"
+    - echo $PGHOST
+    - echo $PGUSER
     - exit 0
     - apt update
     - apt -y install software-properties-common
