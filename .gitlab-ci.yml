@@ -9,7 +9,8 @@ test:
   script: 
     - echo $PGHOST
     - echo $PGUSER
-    - pip install acsoo requests
+    - virtualenv venv
+    - venv/bin/pip install acsoo requests
     - exit 0
     - apt update
     - apt -y install software-properties-common
