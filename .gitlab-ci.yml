@@ -9,6 +9,7 @@ test:
   script: 
     - echo $PGHOST
     - echo $PGUSER
+    - sleep 300
     - virtualenv -p python3 venv
     - venv/bin/pip install acsoo requests
     - exit 0
