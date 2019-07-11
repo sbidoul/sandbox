@@ -1,7 +1,7 @@
-image: ubuntu:18.04
+#image: ubuntu:18.04
 
-services:
-  - postgres:11
+#services:
+#  - postgres:11
 
 test:
   tags:
@@ -9,7 +9,7 @@ test:
   script: 
     - echo $PGHOST
     - echo $PGUSER
-    - python3 -m venv venv
+    - virtualenv -p python3 venv
     - venv/bin/pip install acsoo requests
     - exit 0
     - apt update
