@@ -5,7 +5,7 @@ services:
 
 test:
   tags:
-  - odoo-ci
+  - odoo-ci-test
   script: 
     - echo $PGHOST
     - echo $PGUSER
