@@ -11,7 +11,7 @@ test:
     - echo $PGUSER
     - virtualenv -p python3 venv
     - venv/bin/pip install acsoo requests
-    - sleep 300
+    - for n in {1..100} ; do sleep 1 ; echo $n ; done
     - exit 0
     - apt update
     - apt -y install software-properties-common
