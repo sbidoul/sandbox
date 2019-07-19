@@ -5,7 +5,7 @@ image: python:3
 
 test:
   tags:
-  - odoo-ci-test
+  - container
   script: 
     - for n in {1..100} ; do sleep 1 ; echo $n ; done
     - exit 0
