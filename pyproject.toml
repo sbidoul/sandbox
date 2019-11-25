@@ -1,0 +1,12 @@
+[build-system]
+requires = ["flit_core >=2,<3"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "sandbox"
+author = "ACSONE SA/NV"
+author-email = "info@acsone.eu"
+classifiers = ["License :: OSI Approved :: MIT License"]
+requires = [
+  "sbitest @ git+https://github.com/sbidoul/sandbox#subdirectory=subdir"
+]

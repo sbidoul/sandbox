@@ -1,6 +1,3 @@
-def func():
-    print("hello")
-
-
-if __name__ == "__main__":
-    func()
+""" sandbox """
+__version__ = "0.1.0"
+print("sandbox")
