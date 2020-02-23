@@ -14,16 +14,3 @@ test:
     paths:
       - htmlcov
     expire_in: 2 days
-  
-pages:
-  stage: deploy
-  dependencies:
-    - test
-  script:
-    - mv htmlcov/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 2 days
-  only:
-    - master
