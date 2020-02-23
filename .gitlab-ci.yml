@@ -1,20 +1,23 @@
 image: python:3
 
-#services:
-#  - postgres:11
-
 test:
-  tags:
-  - container
   script: 
-    - for n in {1..100} ; do sleep 1 ; echo $n ; done
-    - exit 0
-    - apt update
-    - apt -y install software-properties-common
-    - add-apt-repository -y ppa:projectatomic/ppa
-    - apt -y install buildah libdevmapper-dev
-    - mkdir /tmp/toto
-    - cd /tmp/toto
-    - echo "FROM docker.io/ubuntu:18.04" >> Dockerfile
-    - echo "RUN echo toto > /tmp/toto" >> Dockerfile
-    - buildah --storage-driver=vfs bud --isolation=chroot -t test .
+    - pip install coverage
+    - coverage run --branch sbi.py
+    - coverage html
+  artifacts:
+    paths:
+      - htmlcov
+    expire_in: 2 days
+  
+pages:
+  dependencies:
+    - test
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 2 days
+  only:
+    - master
