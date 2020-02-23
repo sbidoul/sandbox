@@ -1,6 +1,11 @@
 image: python:3
 
+stages:
+  - test
+  - deploy
+
 test:
+  stage: test
   script: 
     - pip install coverage
     - coverage run --branch sbi.py
@@ -11,6 +16,7 @@ test:
     expire_in: 2 days
   
 pages:
+  stage: deploy
   dependencies:
     - test
   script:
