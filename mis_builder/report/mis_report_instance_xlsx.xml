@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!-- TODO 14
     <record id="xls_export" model="ir.actions.report">
         <field name="name">MIS report instance XLS report</field>
         <field name="model">mis.report.instance</field>
@@ -8,4 +9,5 @@
         <field name="report_type">xlsx</field>
         <field name="report_file">mis_report_instance</field>
     </record>
+    -->
 </odoo>

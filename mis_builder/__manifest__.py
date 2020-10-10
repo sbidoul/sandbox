@@ -13,7 +13,7 @@
     "depends": [
         "account",
         "board",
-        "report_xlsx",  # OCA/reporting-engine
+        # TODO 14 "report_xlsx",  # OCA/reporting-engine
         "date_range",  # OCA/server-ux
     ],
     "data": [
