@@ -1,9 +1,9 @@
-# Copyright 2014-2018 ACSONE SA/NV (<http://acsone.eu>)
+# Copyright 2014-2020 ACSONE SA/NV (<http://acsone.eu>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "MIS Builder",
-    "version": "13.0.3.6.3",
+    "version": "14.0.3.6.3",
     "category": "Reporting",
     "summary": """
         Build 'Management Information System' Reports and Dashboards
@@ -28,7 +28,7 @@
         "report/mis_report_instance_xlsx.xml",
     ],
     "qweb": ["static/src/xml/mis_report_widget.xml"],
-    "installable": False,
+    "installable": True,
     "application": True,
     "license": "AGPL-3",
     "development_status": "Production/Stable",
