@@ -1,16 +1,13 @@
-image: python:3
-
 stages:
-  - test
   - deploy
 
 test:
   stage: test
-  script: 
-    - pip install coverage
-    - coverage run --branch sbi.py
-    - coverage html
-  artifacts:
-    paths:
-      - htmlcov
-    expire_in: 2 days
+  tags:
+    - sbi
+  script:
+    - ls -al $PIP_CACHE_DIR
+    - ls -al /home/gitlab-runner/.cache/git-autoshare
+    - ls -al /tmp/gitlab-runner-cache
+    - df -hT
+    - psql -l 
