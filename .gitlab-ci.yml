@@ -12,3 +12,4 @@ test:
     - df -hT
     - sleep 60
     - psql -l 
+
