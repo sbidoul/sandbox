@@ -6,6 +6,7 @@ test:
   tags:
     - sbi
   script:
+    - sleep 60
     - ls -al $PIP_CACHE_DIR
     - ls -al /home/gitlab-runner/.cache/git-autoshare
     - ls -al /tmp/gitlab-runner-cache
