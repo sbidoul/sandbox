@@ -1,14 +1,25 @@
 stages:
   - test
 
-test:
-  stage: test
-  variables:
-    DEPLOY_ENV: theenv
+.deploy-trigger: &deploy-trigger
   trigger:
     include:
       - project: $CI_PROJECT_PATH
         ref: deploy
         file: .gitlab-ci.yml
+
+test:
+  <<: *deploy-trigger
+  stage: test
+  variables:
+    DEPLOY_ENV: theenv
+  when:
+    manual
+
+review:
+  <<: *deploy-trigger
+  stage: test
+  variables:
+    DEPLOY_ENV: review
   when:
     manual
