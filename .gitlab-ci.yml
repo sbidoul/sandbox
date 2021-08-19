@@ -3,14 +3,10 @@ stages:
 
 test:
   stage: test
-  tags:
-    - sbi
-  script:
-    - ls -al $PIP_CACHE_DIR
-    - ls -al /home/gitlab-runner/.cache/git-autoshare
-    - ls -al /tmp/gitlab-runner-cache
-    - df -hT
-    - sleep 60
-    - psql -l 
-
-
+  trigger:
+    include:
+      - project: $CI_PROJECT_PATH
+        ref: deploy
+        file: .gitlab-ci.yml
+  when:
+    manual
