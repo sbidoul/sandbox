@@ -13,6 +13,7 @@ test:
   stage: test
   variables:
     DEPLOY_ENV: theenv
+    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
   when:
     manual
 
@@ -21,5 +22,6 @@ review:
   stage: test
   variables:
     DEPLOY_ENV: review
+    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
   when:
     manual
