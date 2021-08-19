@@ -3,6 +3,8 @@ stages:
 
 test:
   stage: test
+  variables:
+    DEPLOY_ENV: theenv
   trigger:
     include:
       - project: $CI_PROJECT_PATH
