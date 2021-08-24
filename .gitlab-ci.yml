@@ -4,7 +4,6 @@ stages:
 .deploy-trigger:
   trigger:
     project: sbidoul/sandbox-deploy
-    branch: deploy
 
 test:
   extends: .deploy-trigger
