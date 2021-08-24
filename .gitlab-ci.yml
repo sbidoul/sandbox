@@ -1,13 +1,13 @@
 stages:
   - test
 
-.deploy-trigger: &deploy-trigger
+.deploy-trigger:
   trigger:
     project: sbidoul/sandbox
     branch: deploy
 
 test:
-  <<: *deploy-trigger
+  extends: .deploy-trigger
   stage: test
   variables:
     DEPLOY_ENV: theenv
@@ -16,7 +16,7 @@ test:
     manual
 
 review:
-  <<: *deploy-trigger
+  extends: .deploy-trigger
   stage: test
   variables:
     DEPLOY_ENV: review
