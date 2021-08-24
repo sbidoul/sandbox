@@ -3,10 +3,8 @@ stages:
 
 .deploy-trigger: &deploy-trigger
   trigger:
-    include:
-      - project: $CI_PROJECT_PATH
-        ref: deploy
-        file: .gitlab-ci.yml
+    project: sbidoul/sandbox
+    branch: deploy
 
 test:
   <<: *deploy-trigger
