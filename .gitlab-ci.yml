@@ -13,11 +13,11 @@ deploy-test-trigger:
     DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
   environment:
     name: test
-    on_stop: test-stopeview-trigger
+    on_stop: stop-test-trigger
   when:
     manual
 
-deploy-stop-trigger:
+stop-test-trigger:
   extends: .stop-trigger
   variables:
     DEPLOY_ENV: theenv
