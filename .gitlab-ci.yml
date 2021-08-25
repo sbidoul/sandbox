@@ -1,3 +1,5 @@
+image: ghcr.io/acsone/deploy-tools
+
 .deploy-trigger:
   script:
     - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}"
