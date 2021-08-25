@@ -1,25 +1,51 @@
-stages:
-  - test
-
 .deploy-trigger:
-  trigger:
-    project: sbidoul/sandbox
-    branch: deploy
+  script:
+    - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}
 
-test:
+.stop-trigger:
+  script:
+    - echo "triggering stop of ${CI_ENVIRONMENT_SLUG}
+
+deploy-test-trigger:
   extends: .deploy-trigger
-  stage: test
   variables:
     DEPLOY_ENV: theenv
     DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  environment:
+    name: test
+    on_stop: test-stopeview-trigger
   when:
     manual
 
-review:
+deploy-stop-trigger:
+  extends: .stop-trigger
+  variables:
+    DEPLOY_ENV: theenv
+    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  environment:
+    name: test
+    action: stop
+  when:
+    manual
+
+deploy-review-trigger:
   extends: .deploy-trigger
-  stage: test
   variables:
     DEPLOY_ENV: review
     DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  environment:
+    name: review/${DEPLOY_COMMIT_REF_NAME}
+    on_stop: stop-review-trigger
+  when:
+    manual
+
+stop-review-trigger:
+  extends: .stop-trigger
+  variables:
+    DEPLOY_ENV: review
+    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  environment:
+    name: review/${DEPLOY_COMMIT_REF_NAME}
+    action: stop
   when:
     manual
