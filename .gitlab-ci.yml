@@ -1,6 +1,14 @@
 .deploy-trigger:
   script:
     - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}"
+    - |
+      curl --request POST \
+        --form "token=$CI_JOB_TOKEN" \
+        --form "ref=deploy" \
+        --form "variables[DEPLOY_ENV]=$DEPLOY_ENV" \
+        --form "variables[DEPLOY_COMMIT_REF_NAME]=$CI_COMMIT_REF_NAME" \
+        --form "variables[DEPLOY_STOP]=$DEPLOY_STOP" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
 
 .stop-trigger:
   script:
@@ -9,8 +17,7 @@
 deploy-test-trigger:
   extends: .deploy-trigger
   variables:
-    DEPLOY_ENV: theenv
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+    DEPLOY_ENV: test
   environment:
     name: test
     on_stop: stop-test-trigger
@@ -20,8 +27,8 @@ deploy-test-trigger:
 stop-test-trigger:
   extends: .stop-trigger
   variables:
-    DEPLOY_ENV: theenv
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+    DEPLOY_ENV: test
+    DEPLOY_STOP: "1"
   environment:
     name: test
     action: stop
@@ -32,7 +39,6 @@ deploy-review-trigger:
   extends: .deploy-trigger
   variables:
     DEPLOY_ENV: review
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
   environment:
     name: review/${DEPLOY_COMMIT_REF_NAME}
     on_stop: stop-review-trigger
@@ -43,7 +49,7 @@ stop-review-trigger:
   extends: .stop-trigger
   variables:
     DEPLOY_ENV: review
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+    DEPLOY_STOP: "1"
   environment:
     name: review/${DEPLOY_COMMIT_REF_NAME}
     action: stop
