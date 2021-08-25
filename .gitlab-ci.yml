@@ -22,18 +22,6 @@ deploy-test-trigger:
     DEPLOY_ENV: test
   environment:
     name: test
-    on_stop: stop-test-trigger
-  when:
-    manual
-
-stop-test-trigger:
-  extends: .deploy-trigger
-  variables:
-    DEPLOY_ENV: test
-    DEPLOY_STOP: "1"
-  environment:
-    name: test
-    action: stop
   when:
     manual
 
@@ -43,17 +31,5 @@ deploy-review-trigger:
     DEPLOY_ENV: review
   environment:
     name: review/${CI_COMMIT_REF_NAME}
-    on_stop: stop-review-trigger
-  when:
-    manual
-
-stop-review-trigger:
-  extends: .deploy-trigger
-  variables:
-    DEPLOY_ENV: review
-    DEPLOY_STOP: "1"
-  environment:
-    name: review/${CI_COMMIT_REF_NAME}
-    action: stop
   when:
     manual
