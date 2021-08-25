@@ -1,10 +1,10 @@
 .deploy-trigger:
   script:
-    - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}
+    - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}"
 
 .stop-trigger:
   script:
-    - echo "triggering stop of ${CI_ENVIRONMENT_SLUG}
+    - echo "triggering stop of ${CI_ENVIRONMENT_SLUG}"
 
 deploy-test-trigger:
   extends: .deploy-trigger
