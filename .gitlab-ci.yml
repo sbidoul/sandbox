@@ -1,24 +1,35 @@
-stages:
-  - test
+image: ghcr.io/acsone/deploy-tools
 
 .deploy-trigger:
-  trigger:
-    project: sbidoul/sandbox-deploy
+  script:
+    - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}"
+    - |
+      curl --request POST \
+        --form "token=$CI_JOB_TOKEN" \
+        --form "ref=deploy" \
+        --form "variables[DEPLOY_ENV]=$DEPLOY_ENV" \
+        --form "variables[DEPLOY_COMMIT_REF_NAME]=$CI_COMMIT_REF_NAME" \
+        --form "variables[DEPLOY_STOP]=$DEPLOY_STOP" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
 
-test:
+.stop-trigger:
+  script:
+    - echo "triggering stop of ${CI_ENVIRONMENT_SLUG}"
+
+deploy-test-trigger:
   extends: .deploy-trigger
-  stage: test
   variables:
-    DEPLOY_ENV: theenv
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+    DEPLOY_ENV: test
+  environment:
+    name: test
   when:
     manual
 
-review:
+deploy-review-trigger:
   extends: .deploy-trigger
-  stage: test
   variables:
     DEPLOY_ENV: review
-    DEPLOY_COMMIT_REF_NAME: $CI_COMMIT_REF_NAME
+  environment:
+    name: review/${CI_COMMIT_REF_NAME}
   when:
     manual
