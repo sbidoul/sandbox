@@ -42,7 +42,7 @@ deploy-review-trigger:
   variables:
     DEPLOY_ENV: review
   environment:
-    name: review/${DEPLOY_COMMIT_REF_NAME}
+    name: review/${CI_COMMIT_REF_NAME}
     on_stop: stop-review-trigger
   when:
     manual
@@ -53,7 +53,7 @@ stop-review-trigger:
     DEPLOY_ENV: review
     DEPLOY_STOP: "1"
   environment:
-    name: review/${DEPLOY_COMMIT_REF_NAME}
+    name: review/${CI_COMMIT_REF_NAME}
     action: stop
   when:
     manual
