@@ -27,7 +27,7 @@ deploy-test-trigger:
     manual
 
 stop-test-trigger:
-  extends: .stop-trigger
+  extends: .deploy-trigger
   variables:
     DEPLOY_ENV: test
     DEPLOY_STOP: "1"
@@ -48,7 +48,7 @@ deploy-review-trigger:
     manual
 
 stop-review-trigger:
-  extends: .stop-trigger
+  extends: .deploy-trigger
   variables:
     DEPLOY_ENV: review
     DEPLOY_STOP: "1"
