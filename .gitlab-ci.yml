@@ -31,5 +31,15 @@ deploy-review-trigger:
     DEPLOY_ENV: review
   environment:
     name: review/${CI_COMMIT_REF_NAME}
+    on_stop: stop-review-trigger
+  when:
+    manual
+
+stop-review-trigger:
+  extends: .stop-trigger
+  variables:
+    DEPLOY_ENV: review
+  environment:
+    name: review/${CI_COMMIT_REF_NAME}
   when:
     manual
