@@ -41,5 +41,6 @@ stop-review-trigger:
     DEPLOY_ENV: review
   environment:
     name: review/${CI_COMMIT_REF_NAME}
+    action: stop
   when:
     manual
