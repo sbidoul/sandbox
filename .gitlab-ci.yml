@@ -12,10 +12,6 @@ image: ghcr.io/acsone/deploy-tools
         --form "variables[DEPLOY_STOP]=$DEPLOY_STOP" \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
 
-.stop-trigger:
-  script:
-    - echo "triggering stop of ${CI_ENVIRONMENT_SLUG}"
-
 deploy-test-trigger:
   extends: .deploy-trigger
   variables:
@@ -36,9 +32,10 @@ deploy-review-trigger:
     manual
 
 stop-review-trigger:
-  extends: .stop-trigger
+  extends: .deploy-trigger
   variables:
     DEPLOY_ENV: review
+    DEPLOY_STOP: "true"
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     action: stop
