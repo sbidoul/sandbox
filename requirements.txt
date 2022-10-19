@@ -1,0 +1,2 @@
+-e src/odoo
+odoo14-addon-mis-builder
