@@ -1,0 +1,4 @@
+[submodule "coopiteasy/l10n-belgium"]
+	path = coopiteasy/l10n-belgium
+	url = git@github.com:coopiteasy/l10n-belgium.git
+	branch = 14.0-mis_reports-add_vat_report
