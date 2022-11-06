@@ -8,7 +8,6 @@ test:
 .deploy-trigger:
   script:
     - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG} (stop=${DEPLOY_STOP})"
-    - exit 0
     - |
       curl --request POST \
         --form "token=$CI_JOB_TOKEN" \
