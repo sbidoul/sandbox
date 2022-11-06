@@ -1,11 +1,18 @@
+stages:
+  - test
+  - build-image
+  - deploy
+
 image: ghcr.io/acsone/deploy-tools
 
 test:
+  stage: test
   script:
     - echo "running tests of ${CI_COMMIT_REF_NAME}"
     - kubectl config get-contexts
 
 .deploy-trigger:
+  stage: deploy
   script:
     - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_NAME}"
     - |
@@ -27,6 +34,7 @@ deploy-test-trigger:
     manual
 
 build-review-image:
+  stage: build-image
   script:
     - echo build review image
   when: manual
