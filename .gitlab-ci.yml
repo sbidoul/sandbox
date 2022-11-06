@@ -3,7 +3,7 @@ image: ghcr.io/acsone/deploy-tools
 test:
   script:
     - echo "running tests of ${CI_COMMIT_REF_NAME}"
-    - exit 0
+    - kubectl config get-contexts
 
 .deploy-trigger:
   script:
