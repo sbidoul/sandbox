@@ -48,5 +48,7 @@ stop-review-trigger:
     action: stop
   except:
     - master
+  needs:
+    - build-review-image
   when:
     manual
