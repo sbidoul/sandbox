@@ -40,6 +40,8 @@ build-review-image:
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     action: start
+  except:
+    - master
   when: manual
 
 deploy-review-trigger:
