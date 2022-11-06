@@ -7,12 +7,12 @@ test:
 
 .deploy-trigger:
   script:
-    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG} (stop=${DEPLOY_STOP})"
+    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_NAME} (stop=${DEPLOY_STOP})"
     - |
       curl --request POST \
         --form "token=$CI_JOB_TOKEN" \
         --form "ref=deploy" \
-        --form "variables[DEPLOY_ENV]=${CI_ENVIRONMENT_SLUG}" \
+        --form "variables[DEPLOY_ENV]=${CI_ENVIRONMENT_NAME}" \
         --form "variables[DEPLOY_COMMIT_REF_NAME]=${CI_COMMIT_REF_NAME}" \
         --form "variables[DEPLOY_STOP]=${DEPLOY_STOP}" \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
