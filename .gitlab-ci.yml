@@ -2,20 +2,19 @@ image: ghcr.io/acsone/deploy-tools
 
 .deploy-trigger:
   script:
-    - echo "triggering deploy of ${CI_ENVIRONMENT_SLUG}"
+    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG}"
+    - exit 0
     - |
       curl --request POST \
         --form "token=$CI_JOB_TOKEN" \
         --form "ref=deploy" \
-        --form "variables[DEPLOY_ENV]=$DEPLOY_ENV" \
-        --form "variables[DEPLOY_COMMIT_REF_NAME]=$CI_COMMIT_REF_NAME" \
-        --form "variables[DEPLOY_STOP]=$DEPLOY_STOP" \
+        --form "variables[DEPLOY_ENV]=${CI_ENVIRONMENT_SLUG}" \
+        --form "variables[DEPLOY_COMMIT_REF_NAME]=${CI_COMMIT_REF_NAME}" \
+        --form "variables[DEPLOY_STOP]=${DEPLOY_STOP}" \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
 
 deploy-test-trigger:
   extends: .deploy-trigger
-  variables:
-    DEPLOY_ENV: test
   environment:
     name: test
   when:
@@ -23,21 +22,22 @@ deploy-test-trigger:
 
 deploy-review-trigger:
   extends: .deploy-trigger
-  variables:
-    DEPLOY_ENV: review
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     on_stop: stop-review-trigger
+  only:
+    - merge_requests
   when:
     manual
 
 stop-review-trigger:
   extends: .deploy-trigger
   variables:
-    DEPLOY_ENV: review
     DEPLOY_STOP: "true"
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     action: stop
+  only:
+    - merge_requests
   when:
     manual
