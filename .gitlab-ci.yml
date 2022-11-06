@@ -25,6 +25,11 @@ deploy-test-trigger:
   when:
     manual
 
+build-review-image:
+  script:
+    - echo build review image
+  when: manual
+
 deploy-review-trigger:
   extends: .deploy-trigger
   environment:
@@ -32,8 +37,8 @@ deploy-review-trigger:
     on_stop: stop-review-trigger
   except:
     - master
-  when:
-    manual
+  needs:
+    - build-review-image
 
 stop-review-trigger:
   script:
