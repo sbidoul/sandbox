@@ -34,21 +34,8 @@ deploy-review-trigger:
   extends: .deploy-trigger
   environment:
     name: review/${CI_COMMIT_REF_NAME}
-    on_stop: stop-review-trigger
+    action: prepare
   except:
     - master
   needs:
     - build-review-image
-
-stop-review-trigger:
-  script:
-    - echo stopping undeployed environment ${CI_ENVIRONMENT_NAME}
-  environment:
-    name: review/${CI_COMMIT_REF_NAME}
-    action: stop
-  except:
-    - master
-  needs:
-    - build-review-image
-  when:
-    manual
