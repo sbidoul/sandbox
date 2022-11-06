@@ -14,6 +14,7 @@ test:
         --form "ref=deploy" \
         --form "variables[DEPLOY_ENV]=${CI_ENVIRONMENT_NAME}" \
         --form "variables[DEPLOY_COMMIT_REF_NAME]=${CI_COMMIT_REF_NAME}" \
+        --form "variables[DEPLOY_ACTION]=${CI_ENVIRONMENT_ACTION}" \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
 
 deploy-test-trigger:
@@ -34,8 +35,19 @@ deploy-review-trigger:
   extends: .deploy-trigger
   environment:
     name: review/${CI_COMMIT_REF_NAME}
-    action: prepare
+    on_stop: stop-review-trigger
   except:
     - master
   needs:
     - build-review-image
+
+stop-review-trigger:
+  extends: .deploy-trigger
+  environment:
+    name: review/${CI_COMMIT_REF_NAME}
+    action: stop
+  except:
+    - master
+  needs:
+    - build-review-image
+  when: manual
