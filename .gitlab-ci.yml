@@ -1,5 +1,10 @@
 image: ghcr.io/acsone/deploy-tools
 
+test:
+  script:
+    - echo "running tests of ${CI_COMMIT_REF_NAME}"
+    - exit 0
+
 .deploy-trigger:
   script:
     - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG}"
