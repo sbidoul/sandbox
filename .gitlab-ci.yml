@@ -7,7 +7,7 @@ test:
 
 .deploy-trigger:
   script:
-    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG}"
+    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_SLUG} (stop=${DEPLOY_STOP})"
     - exit 0
     - |
       curl --request POST \
@@ -22,6 +22,8 @@ deploy-test-trigger:
   extends: .deploy-trigger
   environment:
     name: test
+  only:
+    - master
   when:
     manual
 
@@ -30,8 +32,8 @@ deploy-review-trigger:
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     on_stop: stop-review-trigger
-  only:
-    - merge_requests
+  except:
+    - master
   when:
     manual
 
@@ -42,7 +44,7 @@ stop-review-trigger:
   environment:
     name: review/${CI_COMMIT_REF_NAME}
     action: stop
-  only:
-    - merge_requests
+  except:
+    - master
   when:
     manual
