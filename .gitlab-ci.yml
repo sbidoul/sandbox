@@ -37,18 +37,12 @@ build-review-image:
   stage: build-image
   script:
     - echo build review image
-  environment:
-    name: review/${CI_COMMIT_REF_NAME}
-    action: start
   except:
     - master
   when: manual
 
 deploy-review-trigger:
   extends: .deploy-trigger
-  environment:
-    name: review/${CI_COMMIT_REF_NAME}
-    action: prepare
   except:
     - master
   needs:
