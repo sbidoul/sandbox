@@ -2,3 +2,12 @@
 	path = coopiteasy/l10n-belgium
 	url = git@github.com:coopiteasy/l10n-belgium.git
 	branch = 14.0-mis_reports-add_vat_report
+[submodule "mis-builder"]
+	path = mis-builder
+	url = https://github.com/oca/mis-builder
+[submodule "reporting-engine"]
+	path = reporting-engine
+	url = https://github.com/oca/reporting-engine
+[submodule "server-ux"]
+	path = server-ux
+	url = https://github.com/oca/server-ux
