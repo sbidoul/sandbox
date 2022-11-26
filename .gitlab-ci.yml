@@ -1,49 +1,15 @@
-stages:
-  - test
-  - build-image
-  - deploy
-
 image: ghcr.io/acsone/deploy-tools
 
 test:
-  stage: test
+  tags:
+    - generic
   script:
     - echo "running tests of ${CI_COMMIT_REF_NAME}"
     - kubectl config get-contexts
-
-.deploy-trigger:
-  stage: deploy
-  script:
-    - echo "triggering deploy of ${CI_COMMIT_REF_NAME} to ${CI_ENVIRONMENT_NAME}"
-    - |
-      curl --request POST \
-        --form "token=$CI_JOB_TOKEN" \
-        --form "ref=deploy" \
-        --form "variables[DEPLOY_ENV]=${CI_ENVIRONMENT_NAME}" \
-        --form "variables[DEPLOY_COMMIT_REF_NAME]=${CI_COMMIT_REF_NAME}" \
-        --form "variables[DEPLOY_ACTION]=${CI_ENVIRONMENT_ACTION}" \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/trigger/pipeline"
-
-deploy-test-trigger:
-  extends: .deploy-trigger
-  environment:
-    name: test
-  only:
-    - master
-  when:
-    manual
-
-build-review-image:
-  stage: build-image
-  script:
-    - echo build review image
-  except:
-    - master
-  when: manual
-
-deploy-review-trigger:
-  extends: .deploy-trigger
-  except:
-    - master
-  needs:
-    - build-review-image
+    - mkdir -p tocache
+    - ls -al tocache
+    - echo toto > tocache/titi
+  cache:
+    key: .gitlab-ci.yml
+    path:
+      - tocache
