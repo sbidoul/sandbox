@@ -11,5 +11,5 @@ test:
     - echo toto > tocache/titi
   cache:
     key: .gitlab-ci.yml
-    path:
+    paths:
       - tocache
