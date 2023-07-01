@@ -1,0 +1,12 @@
+name: test
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo "Hello World"
+      - run: python2 --version
