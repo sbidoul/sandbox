@@ -1,12 +1,99 @@
-name: test
+name: tests
 
 on:
   pull_request:
+    branches:
+      - "16.0*"
   push:
+    branches:
+      - "16.0"
+      - "16.0-ocabot-*"
 
 jobs:
-  test:
-    runs-on: ubuntu-20.04
+  unreleased-deps:
+    runs-on: ubuntu-latest
+    name: Detect unreleased dependencies
     steps:
-      - run: echo "Hello World"
-      - run: python2 --version
+      - uses: actions/checkout@v3
+      - run: |
+          for reqfile in requirements.txt test-requirements.txt ; do
+              if [ -f ${reqfile} ] ; then
+                  result=0
+                  # reject non-comment lines that contain a / (i.e. URLs, relative paths)
+                  grep "^[^#].*/" ${reqfile} || result=$?
+                  if [ $result -eq 0 ] ; then
+                      echo "Unreleased dependencies found in ${reqfile}."
+                      exit 1
+                  fi
+              fi
+          done
+  test:
+    runs-on: ubuntu-22.04
+    container: ${{ matrix.container }}
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - container: ghcr.io/oca/oca-ci/py3.10-odoo16.0:latest
+            name: test with Odoo
+          - container: ghcr.io/oca/oca-ci/py3.10-ocb16.0:latest
+            name: test with OCB
+            makepot: "true"
+    services:
+      postgres:
+        image: postgres:12.0
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: odoo
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install addons and dependencies
+        run: oca_install_addons
+      - name: Check licenses
+        run: manifestoo -d . check-licenses
+      - name: Check development status
+        run: manifestoo -d . check-dev-status --default-dev-status=Beta
+      - name: Initialize test db
+        run: oca_init_test_database
+      - name: Run tests
+        run: oca_run_tests
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Update .pot files
+        run: |
+          pip install click-odoo-contrib
+          click-odoo-makepot --addons-dir . -d odoo --msgmerge-if-new-pot --log-level=debug
+        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pot-files
+          path: */i18n/*.po*
+          if-no-files-found: ignore
+        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}
+  push-pot:
+    runs-on: ubuntu-24.04
+    if: ${{ github.event_name == 'push' && github.repository_owner == 'OCA' }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: pot-files
+          path: */i18n/*.po*
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        name: Commit and push .pot files
+        with:
+          file_pattern: */i18n/*.po*
+          commit_message: "[UPD] Update .pot files"
+          branch: ${{ github.ref }}
+          commit_user_name: OCA-git-bot
+          commit_user_email: oca-git-bot@odoo-community.org
+          commit_author: OCA-git-bot <oca-git-bot@odoo-community.org>
