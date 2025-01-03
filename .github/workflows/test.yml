@@ -94,6 +94,7 @@ jobs:
           file_pattern: "*/i18n/*.po*"
           commit_message: "[UPD] Update .pot files"
           branch: ${{ github.ref_name }}
+          skip_checkout: true  # in case upstream has changed in the meantime
           commit_user_name: OCA-git-bot
           commit_user_email: oca-git-bot@odoo-community.org
           commit_author: OCA-git-bot <oca-git-bot@odoo-community.org>
