@@ -5,4 +5,4 @@ class MyModel(models.Model):
     _name = "myaddon.mymodel"
     _description = "My Model"
 
-    thename = fields.Char(string="Their Name", required=True)
+    thename = fields.Char(string="Their Names", required=True)
