@@ -92,5 +92,5 @@ jobs:
           if [ -s po.patch ]; then
             git am po.patch
             git checkout -B ${{ github.ref_name }}
-            oca_git_push_if_remote_did_not_change
+            oca_git_push_if_remote_did_not_change origin
           fi
