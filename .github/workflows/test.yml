@@ -90,7 +90,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         name: Commit and push .pot files
         with:
-          file_pattern: */i18n/*.po*
+          file_pattern: "*/i18n/*.po*"
           commit_message: "[UPD] Update .pot files"
           branch: ${{ github.ref }}
           commit_user_name: OCA-git-bot
