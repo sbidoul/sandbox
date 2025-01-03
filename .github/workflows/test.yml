@@ -90,7 +90,8 @@ jobs:
       - name: Push .pot files
         run: |
           if [ -s po.patch ]; then
+            git config user.email "oca-ci"
+            git config user.name "oca-ci@odoo-community.org"
             git am po.patch
-            git checkout -B ${{ github.ref_name }}
-            oca_git_push_if_remote_did_not_change origin
+            git push origin HEAD:${{ github.ref_name }} || true
           fi
