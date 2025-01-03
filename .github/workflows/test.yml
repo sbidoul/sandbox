@@ -93,7 +93,7 @@ jobs:
         with:
           file_pattern: "*/i18n/*.po*"
           commit_message: "[UPD] Update .pot files"
-          branch: ${{ github.ref }}
+          branch: ${{ github.ref_name }}
           commit_user_name: OCA-git-bot
           commit_user_email: oca-git-bot@odoo-community.org
           commit_author: OCA-git-bot <oca-git-bot@odoo-community.org>
