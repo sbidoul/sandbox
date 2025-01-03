@@ -55,5 +55,5 @@ msgstr ""
 
 #. module: myaddon
 #: model:ir.model.fields,field_description:myaddon.field_myaddon_mymodel__thename
-msgid "The Name"
+msgid "Their Name"
 msgstr ""
