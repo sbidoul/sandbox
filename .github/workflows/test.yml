@@ -66,14 +66,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Update .pot files
         run: |
-          pip install click-odoo-contrib
-          click-odoo-makepot --addons-dir . -d odoo --msgmerge-if-new-pot --log-level=debug
+          oca_export_and_commit_pot
+          git format-patch --stdout --keep-subject ${{ github.sha }}..HEAD > po.patch
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
       - uses: actions/upload-artifact@v4
         with:
-          name: pot-files
-          path: "*/i18n/*.po*"
-          if-no-files-found: ignore
+          name: po-patch
+          path: po.patch
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
   push-pot:
     needs: [test]
@@ -87,14 +86,11 @@ jobs:
           ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         with:
-          name: pot-files
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        name: Commit and push .pot files
-        with:
-          file_pattern: "*/i18n/*.po*"
-          commit_message: "[UPD] Update .pot files"
-          branch: ${{ github.ref_name }}
-          skip_checkout: true  # in case upstream has changed in the meantime
-          commit_user_name: OCA-git-bot
-          commit_user_email: oca-git-bot@odoo-community.org
-          commit_author: OCA-git-bot <oca-git-bot@odoo-community.org>
+          name: po-patch
+      - name: Push .pot files
+        run: |
+          if [ -s po.patch ]; then
+            git am po.patch
+            git checkout -B ${{ github.ref_name }}
+            oca_git_push_if_remote_did_not_change
+          fi
