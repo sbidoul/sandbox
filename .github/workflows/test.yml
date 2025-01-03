@@ -68,16 +68,16 @@ jobs:
         run: |
           pip install click-odoo-contrib
           click-odoo-makepot --addons-dir . -d odoo --msgmerge-if-new-pot --log-level=debug
-        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}
+        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
       - uses: actions/upload-artifact@v4
         with:
           name: pot-files
           path: */i18n/*.po*
           if-no-files-found: ignore
-        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}
+        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
   push-pot:
     runs-on: ubuntu-24.04
-    if: ${{ github.event_name == 'push' && github.repository_owner == 'OCA' }}
+    if: ${{ github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
     permissions:
       contents: write
     steps:
