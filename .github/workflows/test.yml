@@ -72,7 +72,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: po-patch
-          path: ./po-patch
+          path: po-patch
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
   push-pot:
     needs: [test]
@@ -90,10 +90,10 @@ jobs:
           git config user.email "oca-ci"
           git config user.name "oca-ci@odoo-community.org"
       - name: Apply .pot files changes
-        run: git am --keep ./po-patch
-        if: ${{ hashFiles('./po-patch/*') != '' }}
+        run: git am --keep po-patch
+        if: ${{ hashFiles('po-patch/*') != '' }}
       - name: Push .pot file changes
         run: git push
-        if: ${{ hashFiles('./po-patch/*') != '' }}
+        if: ${{ hashFiles('po-patch/*') != '' }}
         # Don't fail in case something has changed upstream in the meantime
         continue-on-error: true
