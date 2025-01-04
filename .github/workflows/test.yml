@@ -67,13 +67,14 @@ jobs:
       - name: Update .pot files
         run: |
           oca_export_and_commit_pot
-          git format-patch --output-directory=po-patch --keep-subject @{u}..@
+          mkdir oca-ci-po-patch && touch oca-ci-po-patch/.keep
+          git format-patch --output-directory=oca-ci-po-patch --keep-subject @{u}..@
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
       - uses: actions/upload-artifact@v4
         with:
-          name: po-patch
-          path: po-patch
-          if-no-files-found: ignore
+          name: oca-ci-po-patch
+          path: oca-ci-po-patch
+          retention-days: 7
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
   push-pot:
     needs: [test]
@@ -85,18 +86,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: po-patch
-          path: po-patch
+          name: oca-ci-po-patch
+          path: oca-ci-po-patch
       - name: Configure git user
         run: |
-          ls po-patch
           git config user.email "oca-ci"
           git config user.name "oca-ci@odoo-community.org"
       - name: Apply .pot files changes
-        run: git am --keep po-patch/*
-        if: ${{ hashFiles('po-patch/*') != '' }}
+        run: git am --keep oca-ci-po-patch/*.patch
+        if: ${{ hashFiles('oca-ci-po-patch/*.patch') != '' }}
       - name: Push .pot file changes
         run: git push
-        if: ${{ hashFiles('po-patch/*') != '' }}
+        if: ${{ hashFiles('oca-ci-po-patch/*.patch') != '' }}
         # Don't fail in case something has changed upstream in the meantime
         continue-on-error: true
