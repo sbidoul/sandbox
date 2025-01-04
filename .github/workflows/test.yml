@@ -87,6 +87,7 @@ jobs:
           name: po-patch
       - name: Configure git user
         run: |
+          ls po-patch
           git config user.email "oca-ci"
           git config user.name "oca-ci@odoo-community.org"
       - name: Apply .pot files changes
