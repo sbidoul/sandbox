@@ -82,8 +82,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         with:
           name: po-patch
@@ -93,5 +91,6 @@ jobs:
             git config user.email "oca-ci"
             git config user.name "oca-ci@odoo-community.org"
             git am po.patch
-            git push origin HEAD:${{ github.ref_name }} || true
+            # Push but don't fail if upstream has changed in the meantime
+            git push origin || true
           fi
