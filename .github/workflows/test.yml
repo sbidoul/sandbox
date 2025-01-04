@@ -67,7 +67,7 @@ jobs:
       - name: Update .pot files
         run: |
           oca_export_and_commit_pot
-          mkdir oca-ci-po-patch && touch oca-ci-po-patch/.keep
+          mkdir oca-ci-po-patch && touch oca-ci-po-patch/keep
           git format-patch --output-directory=oca-ci-po-patch --keep-subject @{u}..@
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
       - uses: actions/upload-artifact@v4
