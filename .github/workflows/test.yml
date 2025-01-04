@@ -67,12 +67,12 @@ jobs:
       - name: Update .pot files
         run: |
           oca_export_and_commit_pot
-          git format-patch --stdout --keep-subject @{u}..@ > po.patch
+          git format-patch --output-directory=po-patch --keep-subject @{u}..@
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
       - uses: actions/upload-artifact@v4
         with:
           name: po-patch
-          path: po.patch
+          path: ./po-patch
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'sbidoul' }}
   push-pot:
     needs: [test]
@@ -85,12 +85,15 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: po-patch
-      - name: Push .pot files
+      - name: Configure git user
         run: |
-          if [ -s po.patch ]; then
-            git config user.email "oca-ci"
-            git config user.name "oca-ci@odoo-community.org"
-            git am po.patch
-            # Push but don't fail if upstream has changed in the meantime
-            git push origin || true
-          fi
+          git config user.email "oca-ci"
+          git config user.name "oca-ci@odoo-community.org"
+      - name: Apply .pot files changes
+        run: git am --keep ./po-patch
+        if: ${{ hashFiles('./po-patch/*') != '' }}
+      - name: Push .pot file changes
+        run: git push
+        if: ${{ hashFiles('./po-patch/*') != '' }}
+        # Don't fail in case something has changed upstream in the meantime
+        continue-on-error: true
