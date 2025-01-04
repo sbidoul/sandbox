@@ -66,6 +66,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Update .pot files
         run: |
+          git reset --hard ${{ github.sha }}
           oca_export_and_commit_pot
           mkdir oca-ci-po-patch && touch oca-ci-po-patch/keep
           git format-patch --output-directory=oca-ci-po-patch --keep-subject @{u}..@
