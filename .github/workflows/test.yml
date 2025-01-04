@@ -93,7 +93,7 @@ jobs:
           git config user.email "oca-ci"
           git config user.name "oca-ci@odoo-community.org"
       - name: Apply .pot files changes
-        run: git am --keep po-patch
+        run: git am --keep po-patch/*
         if: ${{ hashFiles('po-patch/*') != '' }}
       - name: Push .pot file changes
         run: git push
